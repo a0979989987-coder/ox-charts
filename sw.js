@@ -33,9 +33,13 @@ self.addEventListener('notificationclick', e => {
   }));
 });
 
-// 推播（之後接上快訊後台：App 關掉也收得到）
+// 推播（快訊後台 ox-alerts 發的）：一定要跳系統通知（iPhone 規定）；App 開著的話也轉給 App（跳視窗、響我們的鈴聲）
 self.addEventListener('push', e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch { d = { title: 'OX 快訊', body: e.data ? e.data.text() : '' }; }
-  e.waitUntil(self.registration.showNotification(d.title || 'OX 快訊', { body: d.body || '', icon: './icons/icon-192.png', badge: './icons/icon-192.png', tag: d.tag || 'ox-alert-' + Date.now(), data: d }));
+  e.waitUntil((async () => {
+    await self.registration.showNotification(d.title || 'OX 快訊', { body: d.body || '', icon: './icons/icon-192.png?v=1127', badge: './icons/icon-192.png?v=1127', tag: d.tag || 'ox-alert-' + Date.now(), renotify: true, data: d, timestamp: d.ts || Date.now() });
+    const cs = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    cs.forEach(c => c.postMessage({ type: 'ox-push', d }));
+  })());
 });
