@@ -23,3 +23,19 @@ self.addEventListener('fetch', e => {
     return res;
   }));
 });
+
+// 點快訊通知：打開（或切回）OX 圖表
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    for (const c of list) if ('focus' in c) return c.focus();
+    return self.clients.openWindow('./');
+  }));
+});
+
+// 推播（之後接上快訊後台：App 關掉也收得到）
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch { d = { title: 'OX 快訊', body: e.data ? e.data.text() : '' }; }
+  e.waitUntil(self.registration.showNotification(d.title || 'OX 快訊', { body: d.body || '', icon: './icons/icon-192.png', badge: './icons/icon-192.png', tag: d.tag || 'ox-alert-' + Date.now(), data: d }));
+});
