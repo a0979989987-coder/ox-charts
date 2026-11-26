@@ -1,1 +1,0 @@
-import{i as e}from"./react-iYUioe7H.js";var t=e(()=>({open:!1})),n={symbol:``,pts:[]};export{t as n,n as t};
