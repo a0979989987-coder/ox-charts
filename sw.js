@@ -24,9 +24,11 @@ self.addEventListener('fetch', e => {
   }));
 });
 
-// 點快訊通知：打開（或切回）OX 圖表
+// 點快訊通知：打開（或切回）OX 圖表；後台通知（日報、檢舉）打開後台那一頁
 self.addEventListener('notificationclick', e => {
   e.notification.close();
+  const d = e.notification.data || {};
+  if (d.staff && typeof d.url === 'string' && /^\.\/admin\.html(#\/[a-z]{1,20})?$/.test(d.url)) { e.waitUntil(self.clients.openWindow(d.url)); return; }
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
     for (const c of list) if ('focus' in c) return c.focus();
     return self.clients.openWindow('./');
