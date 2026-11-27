@@ -1,7 +1,7 @@
 {
   "name": "OX Trading",
   "short_name": "OX Trading",
-  "description": "OX 圖表：加密貨幣看盤、畫線、快訊、形態找幣",
+  "description": "全市場專業分析圖表：看盤、畫線、快訊、形態找幣",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
