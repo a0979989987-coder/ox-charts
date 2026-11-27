@@ -1,0 +1,1 @@
+import{a as e}from"./react-DpdTmLWO.js";var t=e(e=>({dialog:null,searchText:``,searchMode:`chart`,watchSec:0,settingsTab:``,ivInput:null,studyEdit:null,open:(t,n)=>e({dialog:t,searchText:n?.searchText??``,settingsTab:n?.settingsTab??``,searchMode:n?.searchMode??`chart`,watchSec:n?.watchSec??0}),close:()=>e({dialog:null}),setIvInput:t=>e({ivInput:t})}));export{t};
